@@ -1,13 +1,13 @@
 pkgname = "base-files"
-pkgver = "0.2"
-pkgrel = 0
+pkgver = "0.1"
+pkgrel = 1
 _netbase_ver = "6.5"
 replaces = ["dinit-chimera<0.99.11-r2", "gcompat<1.1.0-r2"]
 # highest priority dir owner
 replaces_priority = 65535
-pkgdesc = "Chimera Linux base system files"
+pkgdesc = "Neve Linux base system files"
 license = "custom:meta"
-url = "https://chimera-linux.org"
+url = "https://neve.fmpt.org"
 # netbase files from debian; iana does not provide aliases
 # which e.g. breaks rpcbind (which assumes "portmapper" service
 # which should be an alias of "sunrpc" but is not in iana files)
@@ -36,11 +36,14 @@ def install(self):
         "run",
         "sys",
         "usr",
+        "bin",
+        "sbin",
+        "lib",
     ]:
         self.install_dir(d)
 
     # /usr dirs
-    for d in ["bin", "include", "lib", "share", "src"]:
+    for d in ["bin", "sbin", "include", "lib", "share", "src"]:
         self.install_dir("usr/" + d)
         self.install_dir("usr/local/" + d)
 
@@ -58,21 +61,6 @@ def install(self):
     # /tmp
     self.install_dir("tmp")
     (self.destdir / "tmp").chmod(0o777)
-
-    # Create bin and lib dirs and symlinks
-    for d in ["bin", "lib"]:
-        self.install_dir("usr/" + d)
-        self.install_link(d, "usr/" + d)
-
-    # Symlink sbin paths to /usr/bin
-    self.install_link("sbin", "usr/bin")
-    self.install_link("usr/sbin", "bin")
-    self.install_link("usr/local/sbin", "bin")
-    # wordsized stuff
-    libwn = f"lib{self.profile().wordsize}"
-    self.install_link(libwn, "lib")
-    self.install_link(f"usr/{libwn}", "lib")
-    self.install_link(f"usr/local/{libwn}", "lib")
 
     # Users and tmpfiles
     self.install_sysusers(self.files_path / "sysusers.conf")
@@ -101,14 +89,14 @@ def install(self):
 
     # Files that should not be changed
     for f in [
-        "chimera-release",
+        "neve-release",
         "os-release",
     ]:
-        self.install_file(self.files_path / "lib" / f, "usr/lib")
+        self.install_file(self.files_path / "lib" / f, "lib")
 
     # Systemwide profile snippets
     for f in (self.files_path / "profile.d").glob("*.sh"):
-        self.install_file(f, "usr/lib/profile.d")
+        self.install_file(f, "lib/profile.d")
 
     # Install common licenses
     self.install_dir("usr/share/licenses")

@@ -3,24 +3,25 @@
 # Compatibility script for FSG lsb_release v1.4 or newer
 # Imported from Void Linux
 #
-version="1.0"
-distributor_id="Chimera"
-description="Chimera Linux"
+version="0.0.1"
+distributor_id="Neve"
+description="Neve Linux"
 release="rolling"
-codename="chimera"
+codename="neve"
 options=""
 short=0
 
 while [ $# -gt 0 ]; do
 	case "$1" in
-	-v|--version) options="${options} version" ;;
-	-i|--id) options="${options} distributor_id" ;;
-	-d|--description) options="${options} description" ;;
-	-r|--release) options="${options} release" ;;
-	-c|--codename) options="${options} codename" ;;
-	-a|--all) options="version distributor_id description release codename" ;;
-	-s|--short) short=1 ;;
-	-h|--help) cat << _EOF
+	-v | --version) options="${options} version" ;;
+	-i | --id) options="${options} distributor_id" ;;
+	-d | --description) options="${options} description" ;;
+	-r | --release) options="${options} release" ;;
+	-c | --codename) options="${options} codename" ;;
+	-a | --all) options="version distributor_id description release codename" ;;
+	-s | --short) short=1 ;;
+	-h | --help)
+		cat <<_EOF
 SYNOPSIS
 	lsb_release [OPTION]...
 OPTIONS
@@ -48,8 +49,8 @@ OPTIONS
 	−h, −−help
 	Display this message.
 _EOF
-	;;
-	-*)	# Multiple options in one parameter
+		;;
+	-*) # Multiple options in one parameter
 		opt=$(echo $1 | cut -c2-)
 		while [ ! -z "$opt" ]; do
 			o=$(echo $opt | cut -c1)
@@ -75,11 +76,11 @@ if [ "$short" -eq 1 ]; then
 	space=""
 	for opt in $options; do
 		case "$opt" in
-			version) printf "${space}${version}" ;;
-			distributor_id) printf "${space}${distributor_id}" ;;
-			description) printf "${space}\"${description}\"" ;;
-			release) printf "${space}${release}" ;;
-			codename) printf "${space}${codename}" ;;
+		version) printf "${space}${version}" ;;
+		distributor_id) printf "${space}${distributor_id}" ;;
+		description) printf "${space}\"${description}\"" ;;
+		release) printf "${space}${release}" ;;
+		codename) printf "${space}${codename}" ;;
 		esac
 		space=" "
 	done
@@ -87,11 +88,11 @@ if [ "$short" -eq 1 ]; then
 else
 	for opt in $options; do
 		case "$opt" in
-			version) printf "LSB Version:\t${version}\n" ;;
-			distributor_id) printf "Distributor ID:\t${distributor_id}\n" ;;
-			description) printf "Description:\t${description}\n" ;;
-			release) printf "Release:\t${release}\n" ;;
-			codename) printf "Codename:\t${codename}\n" ;;
+		version) printf "LSB Version:\t${version}\n" ;;
+		distributor_id) printf "Distributor ID:\t${distributor_id}\n" ;;
+		description) printf "Description:\t${description}\n" ;;
+		release) printf "Release:\t${release}\n" ;;
+		codename) printf "Codename:\t${codename}\n" ;;
 		esac
 	done
 fi
