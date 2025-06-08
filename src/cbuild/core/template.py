@@ -2048,9 +2048,21 @@ class Template(Package):
                 dfn.chmod(mode)
 
     def install_bin(self, src, mode=0o755, name=None, glob=False):
-        self.install_file(src, "usr/bin", mode, name, glob)
+        self.install_file(src, "bin", mode, name, glob)
+
+    def install_sbin(self, src, mode=0o755, name=None, glob=False):
+        self.install_file(src, "sbin", mode, name, glob)
 
     def install_lib(self, src, mode=0o755, name=None, glob=False):
+        self.install_file(src, "lib", mode, name, glob)
+
+    def install_usrbin(self, src, mode=0o755, name=None, glob=False):
+        self.install_file(src, "usr/bin", mode, name, glob)
+
+    def install_usrsbin(self, src, mode=0o755, name=None, glob=False):
+        self.install_file(src, "usr/sbin", mode, name, glob)
+
+    def install_usrlib(self, src, mode=0o755, name=None, glob=False):
         self.install_file(src, "usr/lib", mode, name, glob)
 
     def install_man(self, src, name=None, cat=None, glob=False, lang=None):
